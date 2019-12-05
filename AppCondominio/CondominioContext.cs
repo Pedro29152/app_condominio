@@ -25,27 +25,64 @@ namespace AppCondominio
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //Cliente ==> Endereco
             modelBuilder.Entity<Cliente>().HasOne(c => c.Endereco);
+            //Cliente ==> Contato
             modelBuilder.Entity<Cliente>().HasOne(c => c.Contato);
-            modelBuilder.Entity<Cliente>().HasOne(c => c.Locador).WithMany(l => l.Clientes).HasForeignKey(c => c.LocadorID).OnDelete(DeleteBehavior.Restrict);
+            //Cliente ==> Locador(LocadorID)
+            modelBuilder.Entity<Cliente>()
+                .HasOne(c => c.Locador)
+                .WithMany(l => l.Clientes)
+                .HasForeignKey(c => c.LocadorID)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Contrato>().HasOne(c => c.Locador).WithMany(c => c.Contratos).HasForeignKey(c => c.LocadorID).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<Contrato>().HasOne(c => c.Locatario).WithMany(c => c.Contratos).HasForeignKey(c => c.LocatarioID).OnDelete(DeleteBehavior.Restrict);
-            
-            modelBuilder.Entity<Locador>().HasOne(l => l.Endereco);
-            modelBuilder.Entity<Locador>().HasOne(l => l.Contato);
-            
+            //Locador ==> Endereco
+            modelBuilder.Entity<Locador>().HasOne(l => l.Endereco); // ----------feito
+            //Locador ==> Contato
+            modelBuilder.Entity<Locador>().HasOne(l => l.Contato); // ----------feito
+
+            //Locatario ==> Endereco
             modelBuilder.Entity<Locatario>().HasOne(l => l.Endereco);
 
-            modelBuilder.Entity<Gastos>().HasOne(g => g.Locador).WithMany(l => l.Gastos).HasForeignKey(g=>g.LocadorID).OnDelete(DeleteBehavior.Restrict);
+            //Contrato ==> Locador(LocadorID)
+            modelBuilder.Entity<Contrato>()
+                .HasOne(c => c.Locador)
+                .WithMany(c => c.Contratos)
+                .HasForeignKey(c => c.LocadorID)
+                .OnDelete(DeleteBehavior.Restrict);
+            //Contrato ==> Locatario(LocatarioID)
+            modelBuilder.Entity<Contrato>()
+                .HasOne(c => c.Locatario)
+                .WithMany(c => c.Contratos)
+                .HasForeignKey(c => c.LocatarioID)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Material>().HasOne(m => m.Fornecedor).WithMany(l => l.Materiais).HasForeignKey(m => m.FornecedorID).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<Material>().HasOne(m => m.Locador).WithMany(l => l.Materiais).HasForeignKey(m=>m.LocadorID).OnDelete(DeleteBehavior.Restrict);
+            //Gastos ==> Locador(LocadorID)
+            modelBuilder.Entity<Gastos>()
+                .HasOne(g => g.Locador)
+                .WithMany(l => l.Gastos)
+                .HasForeignKey(g=>g.LocadorID)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<FormaPagamento>().HasOne(f => f.Contrato).WithMany(c => c.FormasPagamento).HasForeignKey(f => f.ContratoID).OnDelete(DeleteBehavior.Restrict);
+            //Material ==> Fornecedor(FornecedorID)
+            modelBuilder.Entity<Material>() // ----------feito
+                .HasOne(m => m.Fornecedor)
+                .WithMany(l => l.Materiais)
+                .HasForeignKey(m => m.FornecedorID)
+                .OnDelete(DeleteBehavior.Restrict);
+            //Material ==> Locador(LocadorID)
+            modelBuilder.Entity<Material>() // ----------feito
+                .HasOne(m => m.Locador)
+                .WithMany(l => l.Materiais)
+                .HasForeignKey(m=>m.LocadorID)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Endereco>();
-            modelBuilder.Entity<Contato>();
+            //FormaPagamento ==> Contrato(ContratoID)
+            modelBuilder.Entity<FormaPagamento>()
+                .HasOne(f => f.Contrato)
+                .WithMany(c => c.FormasPagamento)
+                .HasForeignKey(f => f.ContratoID)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

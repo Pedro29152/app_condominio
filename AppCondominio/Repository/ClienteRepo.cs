@@ -1,5 +1,6 @@
 ﻿using AppCondominio.Models;
 using AppCondominio.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +11,47 @@ namespace AppCondominio.Repository
     public class ClienteRepo : BaseRepository<Cliente>, IClienteRepo
     {
         public ClienteRepo(CondominioContext context) : base(context)
+        {   }
+
+        public bool ClienteExists(int id)
         {
+            return DbSet.Any(e => e.Id == id);
+        }
+
+        public Cliente GetCliente(int? id)
+        {
+            return DbSet
+                .Include(c => c.Locador)
+                .Include(c => c.Endereco)
+                .Include(c => c.Contato)
+                .FirstOrDefault(m => m.Id == id);
         }
 
         public IList<Cliente> GetClientes()
         {
-            return DbSet.ToList();
+            return DbSet
+                .Include(c => c.Locador)
+                .Include(c => c.Endereco)
+                .Include(c => c.Contato)
+                .ToList();
+        }
+
+        public void RemoveCliente(Cliente cliente)
+        {
+            DbSet.Remove(cliente);
+            context.SaveChanges();
+        }
+
+        public void UpdateCliente(Cliente cliente)
+        {
+            DbSet.Update(cliente);
+            context.SaveChanges();
+        }
+
+        public void CreateCliente(Cliente cliente)
+        {
+            DbSet.Add(cliente);
+            context.SaveChanges();
         }
     }
 }

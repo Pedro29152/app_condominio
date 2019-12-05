@@ -7,22 +7,23 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AppCondominio;
 using AppCondominio.Models;
+using AppCondominio.Repository.Interfaces;
 
 namespace AppCondominio.Controllers
 {
     public class FornecedoresController : Controller
     {
-        private readonly CondominioContext _context;
+        private readonly IFornecedorRepo fornecedorRepo;
 
-        public FornecedoresController(CondominioContext context)
+        public FornecedoresController(IFornecedorRepo fornecedorRepo)
         {
-            _context = context;
+            this.fornecedorRepo = fornecedorRepo;
         }
 
         // GET: Fornecedores
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Fornecedores.ToListAsync());
+            return View(fornecedorRepo.GetFornecedores());
         }
 
         // GET: Fornecedores/Details/5
@@ -33,8 +34,7 @@ namespace AppCondominio.Controllers
                 return NotFound();
             }
 
-            var fornecedor = await _context.Fornecedores
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var fornecedor = fornecedorRepo.GetFornecedor(id);
             if (fornecedor == null)
             {
                 return NotFound();
@@ -58,8 +58,7 @@ namespace AppCondominio.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(fornecedor);
-                await _context.SaveChangesAsync();
+                fornecedorRepo.GravaFornecedor(fornecedor);
                 return RedirectToAction(nameof(Index));
             }
             return View(fornecedor);
@@ -73,7 +72,7 @@ namespace AppCondominio.Controllers
                 return NotFound();
             }
 
-            var fornecedor = await _context.Fornecedores.FindAsync(id);
+            var fornecedor = fornecedorRepo.GetFornecedor(id);
             if (fornecedor == null)
             {
                 return NotFound();
@@ -97,12 +96,11 @@ namespace AppCondominio.Controllers
             {
                 try
                 {
-                    _context.Update(fornecedor);
-                    await _context.SaveChangesAsync();
+                    fornecedorRepo.UpdateFornecedor(fornecedor);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!FornecedorExists(fornecedor.Id))
+                    if (!fornecedorRepo.FornecedorExists(fornecedor.Id))
                     {
                         return NotFound();
                     }
@@ -124,8 +122,7 @@ namespace AppCondominio.Controllers
                 return NotFound();
             }
 
-            var fornecedor = await _context.Fornecedores
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var fornecedor = fornecedorRepo.GetFornecedor(id);
             if (fornecedor == null)
             {
                 return NotFound();
@@ -139,15 +136,9 @@ namespace AppCondominio.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var fornecedor = await _context.Fornecedores.FindAsync(id);
-            _context.Fornecedores.Remove(fornecedor);
-            await _context.SaveChangesAsync();
+            var fornecedor = fornecedorRepo.GetFornecedor(id);
+            fornecedorRepo.DeleteFornecedor(fornecedor);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool FornecedorExists(int id)
-        {
-            return _context.Fornecedores.Any(e => e.Id == id);
         }
     }
 }

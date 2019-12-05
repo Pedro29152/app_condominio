@@ -24,17 +24,17 @@
             </div>
             <div class="form-group">
                 <label asp-for="ValorUnitario" class="control-label"></label>
-                <input asp-for="ValorUnitario" class="form-control" />
+                <input asp-for="ValorUnitario" type="number" step="0.01" class="form-control" />
                 <span asp-validation-for="ValorUnitario" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="QuantidadeAtual" class="control-label"></label>
-                <input asp-for="QuantidadeAtual" class="form-control" />
+                <input asp-for="QuantidadeAtual" type="number" step="1" class="form-control" />
                 <span asp-validation-for="QuantidadeAtual" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="QuantidadeTotal" class="control-label"></label>
-                <input asp-for="QuantidadeTotal" class="form-control" />
+                <input asp-for="QuantidadeTotal" type="number" step="1" class="form-control" />
                 <span asp-validation-for="QuantidadeTotal" class="text-danger"></span>
             </div>
             <div class="form-group">
