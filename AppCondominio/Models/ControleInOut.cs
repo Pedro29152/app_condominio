@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
@@ -9,22 +8,23 @@ using System.Threading.Tasks;
 namespace AppCondominio.Models
 {
     [DataContract]
-    public class Cliente : BaseModel
+    public class ControleInOut : BaseModel
     {
         [DataMember]
         [Required]
-        public string Nome { get; set; }
+        public DateTime DataEntrada { get; set; }
+        [DataMember]
+        public DateTime? DataSaida { get; set; }
+
         [DataMember]
         [Required]
-        public string Cpf { get; set; }
+        public int LocadorID { get; set; }
+        [DataMember]
+        public Locador Locador { get; set; }
         [DataMember]
         [Required]
-        public Endereco Endereco { get; set; }
+        public int ClienteID { get; set; }
         [DataMember]
-        [Required]
-        public Contato Contato { get; set; }
-        
-        [DataMember]
-        public IList<ControleInOut> ControlesInOut{ get; set; }
+        public Cliente Cliente { get; set; }
     }
 }

@@ -21,18 +21,18 @@ namespace AppCondominio.Repository
         public Cliente GetCliente(int? id)
         {
             return DbSet
-                .Include(c => c.Locador)
                 .Include(c => c.Endereco)
                 .Include(c => c.Contato)
+                .Include(c => c.ControlesInOut)
                 .FirstOrDefault(m => m.Id == id);
         }
 
         public IList<Cliente> GetClientes()
         {
             return DbSet
-                .Include(c => c.Locador)
                 .Include(c => c.Endereco)
                 .Include(c => c.Contato)
+                .Include(c => c.ControlesInOut)
                 .ToList();
         }
 

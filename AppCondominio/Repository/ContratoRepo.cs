@@ -1,5 +1,6 @@
 ﻿using AppCondominio.Models;
 using AppCondominio.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,11 @@ namespace AppCondominio.Repository
         {
         }
 
+        public bool ContratoExists(int id)
+        {
+            return DbSet.Any(l => l.Id == id);
+        }
+
         public Contrato CreateContrato(Contrato contrato)
         {
             DbSet.Add(contrato);
@@ -20,9 +26,28 @@ namespace AppCondominio.Repository
             return contrato;
         }
 
+        public void DeleteContrato(Contrato contrato)
+        {
+            DbSet.Remove(contrato);
+            context.SaveChanges();
+        }
+
+        public Contrato GetContrato(int? Id)
+        {
+            return DbSet
+                .Include(c => c.Locador)
+                .Include(c => c.FormasPagamento)
+                .Include(c => c.Locatario)
+                .FirstOrDefault(m => m.Id == Id);
+        }
+
         public IList<Contrato> GetContratos()
         {
-            return DbSet.ToList();
+            return DbSet
+                .Include(c => c.Locador)
+                .Include(c => c.FormasPagamento)
+                .Include(c => c.Locatario)
+                .ToList();
         }
 
         public IList<Contrato> GetContratos(Locador locador)
@@ -33,6 +58,12 @@ namespace AppCondominio.Repository
         public IList<Contrato> GetContratos(Locatario locatario)
         {
             return DbSet.Where(c => c.LocatarioID == locatario.Id).ToList();
+        }
+
+        public void UpdateContrato(Contrato contrato)
+        {
+            DbSet.Update(contrato);
+            context.SaveChanges();
         }
     }
 }

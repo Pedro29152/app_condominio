@@ -44,10 +44,11 @@ namespace AppCondominio
             services.AddTransient<IEnderecoRepo,        EnderecoRepo>();
             services.AddTransient<IFormaPagamentoRepo,  FormaPagamentoRepo>();
             services.AddTransient<IFornecedorRepo,      FornecedorRepo>();
-            services.AddTransient<IGastosRepo,          GastosRepo>();
-            services.AddTransient<ILocadorRepo,         LocadorRepo>();
             services.AddTransient<ILocatarioRepo,       LocatarioRepo>();
+            services.AddTransient<ILocadorRepo,         LocadorRepo>();
+            services.AddTransient<IGastosRepo,          GastosRepo>();
             services.AddTransient<IMaterialRepo,        MaterialRepo>();
+            services.AddTransient<IControleInOutRepo,   ControleInOutRepo>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

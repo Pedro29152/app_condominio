@@ -1,5 +1,6 @@
 ﻿using AppCondominio.Models;
 using AppCondominio.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +21,35 @@ namespace AppCondominio.Repository
             return gastos;
         }
 
+        public void DeleteGastos(Gastos gastos)
+        {
+            DbSet.Remove(gastos);
+            context.SaveChanges();
+        }
+
+        public bool GastosExists(int id)
+        {
+            return DbSet.Any(e => e.Id == id);
+        }
+
+        public Gastos GetGasto(int? Id)
+        {
+            return DbSet
+                .Include(l => l.Locador)
+                .FirstOrDefault(m => m.Id == Id);
+        }
+
         public IList<Gastos> GetGastos()
         {
-            return DbSet.ToList();
+            return DbSet
+                .Include(l => l.Locador)
+                .ToList();
+        }
+
+        public void UpdateGastos(Gastos gastos)
+        {
+            DbSet.Update(gastos);
+            context.SaveChanges();
         }
     }
 }

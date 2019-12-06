@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Threading.Tasks;
 
 namespace AppCondominio.Models
 {
@@ -20,10 +17,7 @@ namespace AppCondominio.Models
         public Endereco Endereco { get; set; }
         [DataMember]
         public Contato Contato { get; set; }
-
-        [DataMember]
-        public IList<Cliente> Clientes { get; set; }
-
+        
         [DataMember]
         public IList<Gastos> Gastos { get; set; }
 
@@ -32,6 +26,9 @@ namespace AppCondominio.Models
 
         [DataMember]
         public IList<Contrato> Contratos { get; set; }
+
+        [DataMember]
+        public IList<ControleInOut> ControlesInOut { get; set; }
         //Verificar pagamentos
     }
 }

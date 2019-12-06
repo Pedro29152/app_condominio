@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppCondominio.Migrations
 {
     [DbContext(typeof(CondominioContext))]
-    [Migration("20191205044243_Condominio")]
+    [Migration("20191206005109_Condominio")]
     partial class Condominio
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,8 +34,6 @@ namespace AppCondominio.Migrations
 
                     b.Property<int>("EnderecoId");
 
-                    b.Property<int>("LocadorID");
-
                     b.Property<string>("Nome")
                         .IsRequired();
 
@@ -44,8 +42,6 @@ namespace AppCondominio.Migrations
                     b.HasIndex("ContatoId");
 
                     b.HasIndex("EnderecoId");
-
-                    b.HasIndex("LocadorID");
 
                     b.ToTable("Clientes");
                 });
@@ -92,6 +88,29 @@ namespace AppCondominio.Migrations
                     b.HasIndex("LocatarioID");
 
                     b.ToTable("Contratos");
+                });
+
+            modelBuilder.Entity("AppCondominio.Models.ControleInOut", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ClienteID");
+
+                    b.Property<DateTime>("DataEntrada");
+
+                    b.Property<DateTime?>("DataSaida");
+
+                    b.Property<int>("LocadorID");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClienteID");
+
+                    b.HasIndex("LocadorID");
+
+                    b.ToTable("ControlesInOut");
                 });
 
             modelBuilder.Entity("AppCondominio.Models.Endereco", b =>
@@ -280,11 +299,6 @@ namespace AppCondominio.Migrations
                         .WithMany()
                         .HasForeignKey("EnderecoId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("AppCondominio.Models.Locador", "Locador")
-                        .WithMany("Clientes")
-                        .HasForeignKey("LocadorID")
-                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("AppCondominio.Models.Contrato", b =>
@@ -297,6 +311,19 @@ namespace AppCondominio.Migrations
                     b.HasOne("AppCondominio.Models.Locatario", "Locatario")
                         .WithMany("Contratos")
                         .HasForeignKey("LocatarioID")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("AppCondominio.Models.ControleInOut", b =>
+                {
+                    b.HasOne("AppCondominio.Models.Cliente", "Cliente")
+                        .WithMany("ControlesInOut")
+                        .HasForeignKey("ClienteID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("AppCondominio.Models.Locador", "Locador")
+                        .WithMany("ControlesInOut")
+                        .HasForeignKey("LocadorID")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

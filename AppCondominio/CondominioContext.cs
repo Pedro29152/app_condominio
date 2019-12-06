@@ -22,6 +22,7 @@ namespace AppCondominio
         public DbSet<Fornecedor> Fornecedores { get; set; }
         public DbSet<Material> Materiais { get; set; }
         public DbSet<FormaPagamento> FormasPagamento { get; set; }
+        public DbSet<ControleInOut> ControlesInOut { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -29,17 +30,11 @@ namespace AppCondominio
             modelBuilder.Entity<Cliente>().HasOne(c => c.Endereco);
             //Cliente ==> Contato
             modelBuilder.Entity<Cliente>().HasOne(c => c.Contato);
-            //Cliente ==> Locador(LocadorID)
-            modelBuilder.Entity<Cliente>()
-                .HasOne(c => c.Locador)
-                .WithMany(l => l.Clientes)
-                .HasForeignKey(c => c.LocadorID)
-                .OnDelete(DeleteBehavior.Restrict);
 
             //Locador ==> Endereco
-            modelBuilder.Entity<Locador>().HasOne(l => l.Endereco); // ----------feito
+            modelBuilder.Entity<Locador>().HasOne(l => l.Endereco);
             //Locador ==> Contato
-            modelBuilder.Entity<Locador>().HasOne(l => l.Contato); // ----------feito
+            modelBuilder.Entity<Locador>().HasOne(l => l.Contato);
 
             //Locatario ==> Endereco
             modelBuilder.Entity<Locatario>().HasOne(l => l.Endereco);
@@ -57,7 +52,7 @@ namespace AppCondominio
                 .HasForeignKey(c => c.LocatarioID)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            //Gastos ==> Locador(LocadorID)
+            //Locatario ==> Locador(LocadorID)
             modelBuilder.Entity<Gastos>()
                 .HasOne(g => g.Locador)
                 .WithMany(l => l.Gastos)
@@ -65,13 +60,13 @@ namespace AppCondominio
                 .OnDelete(DeleteBehavior.Restrict);
 
             //Material ==> Fornecedor(FornecedorID)
-            modelBuilder.Entity<Material>() // ----------feito
+            modelBuilder.Entity<Material>()
                 .HasOne(m => m.Fornecedor)
                 .WithMany(l => l.Materiais)
                 .HasForeignKey(m => m.FornecedorID)
                 .OnDelete(DeleteBehavior.Restrict);
             //Material ==> Locador(LocadorID)
-            modelBuilder.Entity<Material>() // ----------feito
+            modelBuilder.Entity<Material>()
                 .HasOne(m => m.Locador)
                 .WithMany(l => l.Materiais)
                 .HasForeignKey(m=>m.LocadorID)
@@ -82,6 +77,19 @@ namespace AppCondominio
                 .HasOne(f => f.Contrato)
                 .WithMany(c => c.FormasPagamento)
                 .HasForeignKey(f => f.ContratoID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            //ControleInOut ==> Cliente(ClienteID)
+            modelBuilder.Entity<ControleInOut>()
+                .HasOne(c => c.Cliente)
+                .WithMany(c => c.ControlesInOut)
+                .HasForeignKey(c => c.ClienteID)
+                .OnDelete(DeleteBehavior.Restrict);
+            //ControleInOut ==> Locador(LocadorID)
+            modelBuilder.Entity<ControleInOut>()
+                .HasOne(c => c.Locador)
+                .WithMany(l => l.ControlesInOut)
+                .HasForeignKey(c => c.LocadorID)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

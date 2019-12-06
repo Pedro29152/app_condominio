@@ -58,6 +58,34 @@ namespace AppCondominio.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Clientes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Nome = table.Column<string>(nullable: false),
+                    Cpf = table.Column<string>(nullable: false),
+                    EnderecoId = table.Column<int>(nullable: false),
+                    ContatoId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Clientes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Clientes_Contatos_ContatoId",
+                        column: x => x.ContatoId,
+                        principalTable: "Contatos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Clientes_Enderecos_EnderecoId",
+                        column: x => x.EnderecoId,
+                        principalTable: "Enderecos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Locadores",
                 columns: table => new
                 {
@@ -114,34 +142,27 @@ namespace AppCondominio.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Clientes",
+                name: "ControlesInOut",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Nome = table.Column<string>(nullable: false),
-                    Cpf = table.Column<string>(nullable: false),
-                    EnderecoId = table.Column<int>(nullable: false),
-                    ContatoId = table.Column<int>(nullable: false),
-                    LocadorID = table.Column<int>(nullable: false)
+                    DataEntrada = table.Column<DateTime>(nullable: false),
+                    DataSaida = table.Column<DateTime>(nullable: true),
+                    LocadorID = table.Column<int>(nullable: false),
+                    ClienteID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Clientes", x => x.Id);
+                    table.PrimaryKey("PK_ControlesInOut", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Clientes_Contatos_ContatoId",
-                        column: x => x.ContatoId,
-                        principalTable: "Contatos",
+                        name: "FK_ControlesInOut_Clientes_ClienteID",
+                        column: x => x.ClienteID,
+                        principalTable: "Clientes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Clientes_Enderecos_EnderecoId",
-                        column: x => x.EnderecoId,
-                        principalTable: "Enderecos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Clientes_Locadores_LocadorID",
+                        name: "FK_ControlesInOut_Locadores_LocadorID",
                         column: x => x.LocadorID,
                         principalTable: "Locadores",
                         principalColumn: "Id",
@@ -262,11 +283,6 @@ namespace AppCondominio.Migrations
                 column: "EnderecoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Clientes_LocadorID",
-                table: "Clientes",
-                column: "LocadorID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Contratos_LocadorID",
                 table: "Contratos",
                 column: "LocadorID");
@@ -275,6 +291,16 @@ namespace AppCondominio.Migrations
                 name: "IX_Contratos_LocatarioID",
                 table: "Contratos",
                 column: "LocatarioID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ControlesInOut_ClienteID",
+                table: "ControlesInOut",
+                column: "ClienteID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ControlesInOut_LocadorID",
+                table: "ControlesInOut",
+                column: "LocadorID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_FormasPagamento_ContratoID",
@@ -320,7 +346,7 @@ namespace AppCondominio.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Clientes");
+                name: "ControlesInOut");
 
             migrationBuilder.DropTable(
                 name: "FormasPagamento");
@@ -330,6 +356,9 @@ namespace AppCondominio.Migrations
 
             migrationBuilder.DropTable(
                 name: "Materiais");
+
+            migrationBuilder.DropTable(
+                name: "Clientes");
 
             migrationBuilder.DropTable(
                 name: "Contratos");
