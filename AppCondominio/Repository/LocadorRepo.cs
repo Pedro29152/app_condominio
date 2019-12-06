@@ -17,11 +17,11 @@ namespace AppCondominio.Repository
         public Locador GetLocador(int? Id)
         {
             return DbSet
+                .Include(l => l.Contratos).ThenInclude(c => c.Locatario)
                 .Include(l => l.Endereco)
                 .Include(l => l.Contato)
                 .Include(l => l.Gastos)
                 .Include(l => l.Materiais)
-                .Include(l => l.Contratos)
                 .Include(l => l.ControlesInOut)
                 .FirstOrDefault(m => m.Id == Id);
         }

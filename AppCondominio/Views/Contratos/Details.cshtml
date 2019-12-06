@@ -1,4 +1,4 @@
-﻿@model AppCondominio.Models.Material
+﻿@model AppCondominio.Models.Contrato
 
 @{
     ViewData["Title"] = "Details";
@@ -7,44 +7,44 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Material</h4>
+    <h4>Contrato</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nome)
+            @Html.DisplayNameFor(model => model.DataInicio)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nome)
+            @Html.DisplayFor(model => model.DataInicio)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Descricao)
+            @Html.DisplayNameFor(model => model.DataFim)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Descricao)
+            @Html.DisplayFor(model => model.DataFim)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ValorUnitario)
+            @Html.DisplayNameFor(model => model.Valor)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ValorUnitario)
+            @Html.DisplayFor(model => model.Valor)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Quantidade)
+            @Html.DisplayNameFor(model => model.FormaPagamento)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Quantidade)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Fornecedor)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Fornecedor.CNPJ)
+            @Html.DisplayFor(model => model.FormaPagamento)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Locador)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Locador.Documento)
+            @Html.DisplayFor(model => model.Locador.Nome)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Locatario)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Locatario.Nome)
         </dd>
     </dl>
 </div>

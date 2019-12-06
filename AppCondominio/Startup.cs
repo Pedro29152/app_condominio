@@ -38,16 +38,15 @@ namespace AppCondominio
                 options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection"))
             );
 
+            services.AddTransient<IGastosRepo,          GastosRepo>();
             services.AddTransient<IContatoRepo,         ContatoRepo>();
             services.AddTransient<IClienteRepo,         ClienteRepo>();
+            services.AddTransient<ILocadorRepo,         LocadorRepo>();
+            services.AddTransient<IMaterialRepo,        MaterialRepo>();
             services.AddTransient<IContratoRepo,        ContratoRepo>();
             services.AddTransient<IEnderecoRepo,        EnderecoRepo>();
-            services.AddTransient<IFormaPagamentoRepo,  FormaPagamentoRepo>();
-            services.AddTransient<IFornecedorRepo,      FornecedorRepo>();
             services.AddTransient<ILocatarioRepo,       LocatarioRepo>();
-            services.AddTransient<ILocadorRepo,         LocadorRepo>();
-            services.AddTransient<IGastosRepo,          GastosRepo>();
-            services.AddTransient<IMaterialRepo,        MaterialRepo>();
+            services.AddTransient<IFornecedorRepo,      FornecedorRepo>();
             services.AddTransient<IControleInOutRepo,   ControleInOutRepo>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

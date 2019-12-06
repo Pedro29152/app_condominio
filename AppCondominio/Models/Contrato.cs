@@ -21,16 +21,16 @@ namespace AppCondominio.Models
         public double Valor { get; set; }
         [DataMember]
         [Required]
-        public IList<FormaPagamento> FormasPagamento { get; set; }
-        [DataMember]
-        [Required]
-        public Locador Locador { get; set; }
+        public string FormaPagamento { get; set; }
         [ForeignKey("LocadorID")]
+        [Required]
         public int LocadorID { get; set; }
         [DataMember]
-        [Required]
-        public Locatario Locatario { get; set; }
+        public Locador Locador { get; set; }
         [ForeignKey("LocatarioID")]
+        [Required]
         public int LocatarioID { get; set; }
+        [DataMember]
+        public Locatario Locatario { get; set; }
     }
 }

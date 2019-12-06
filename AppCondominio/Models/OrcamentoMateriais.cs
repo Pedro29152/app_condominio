@@ -14,7 +14,7 @@ namespace AppCondominio.Models
             this.Fornecedor = Fornecedor;
             Materiais = Fornecedor.Materiais;
             QuantidadeDeMateriais = Materiais.Count;
-            Total = Materiais.Sum(m => m.QuantidadeTotal * m.ValorUnitario);
+            Total = Materiais.Sum(m => m.Quantidade * m.ValorUnitario);
         }
 
         [DataMember]
@@ -24,6 +24,6 @@ namespace AppCondominio.Models
         [DataMember]
         public int QuantidadeDeMateriais { get; set; }
         [DataMember]
-        IList<Material> Materiais { get; set; }
+        public IList<Material> Materiais { get; set; }
     }
 }

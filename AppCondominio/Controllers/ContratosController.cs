@@ -11,28 +11,28 @@ using AppCondominio.Repository.Interfaces;
 
 namespace AppCondominio.Controllers
 {
-    public class MateriaisController : Controller
+    public class ContratosController : Controller
     {
-        private readonly IMaterialRepo materialRepo;
-        private readonly IFornecedorRepo fornecedorRepo;
+        private readonly IContratoRepo contratoRepo;
         private readonly ILocadorRepo locadorRepo;
+        private readonly ILocatarioRepo locatarioRepo;
 
-        public MateriaisController(IMaterialRepo materialRepo,
-            IFornecedorRepo fornecedorRepo,
-            ILocadorRepo locadorRepo)
+        public ContratosController(IContratoRepo contratoRepo,
+            ILocadorRepo locadorRepo,
+            ILocatarioRepo locatarioRepo)
         {
-            this.materialRepo = materialRepo;
-            this.fornecedorRepo = fornecedorRepo;
+            this.contratoRepo = contratoRepo;
             this.locadorRepo = locadorRepo;
+            this.locatarioRepo = locatarioRepo;
         }
 
-        // GET: Materiais
+        // GET: Contratoes
         public async Task<IActionResult> Index()
         {
-            return View(materialRepo.GetMateriais());
+            return View(contratoRepo.GetContratos());
         }
 
-        // GET: Materiais/Details/5
+        // GET: Contratoes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -40,41 +40,41 @@ namespace AppCondominio.Controllers
                 return NotFound();
             }
 
-            var material = materialRepo.GetMaterial(id);
-            if (material == null)
+            var contrato = contratoRepo.GetContrato(id);
+            if (contrato == null)
             {
                 return NotFound();
             }
 
-            return View(material);
+            return View(contrato);
         }
 
-        // GET: Materiais/Create
+        // GET: Contratoes/Create
         public IActionResult Create()
         {
-            ViewData["FornecedorID"] = new SelectList(fornecedorRepo.GetFornecedores(), "Id", "Nome");
             ViewData["LocadorID"] = new SelectList(locadorRepo.GetLocadores(), "Id", "Nome");
+            ViewData["LocatarioID"] = new SelectList(locatarioRepo.GetLocatarios(), "Id", "Nome");
             return View();
         }
 
-        // POST: Materiais/Create
+        // POST: Contratoes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Nome,Descricao,ValorUnitario,Quantidade,FornecedorID,LocadorID,Id")] Material material)
+        public async Task<IActionResult> Create([Bind("DataInicio,DataFim,Valor,FormaPagamento,LocadorID,LocatarioID,Id")] Contrato contrato)
         {
             if (ModelState.IsValid)
             {
-                var teste = materialRepo.CreateMaterial(material);
+                contratoRepo.CreateContrato(contrato);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FornecedorID"] = new SelectList(fornecedorRepo.GetFornecedores(), "Id", "Nome");
             ViewData["LocadorID"] = new SelectList(locadorRepo.GetLocadores(), "Id", "Nome");
-            return View(material);
+            ViewData["LocatarioID"] = new SelectList(locatarioRepo.GetLocatarios(), "Id", "Nome");
+            return View(contrato);
         }
 
-        // GET: Materiais/Edit/5
+        // GET: Contratoes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -82,24 +82,24 @@ namespace AppCondominio.Controllers
                 return NotFound();
             }
 
-            var material = materialRepo.GetMaterial(id);
-            if (material == null)
+            var contrato = contratoRepo.GetContrato(id);
+            if (contrato == null)
             {
                 return NotFound();
             }
-            ViewData["FornecedorID"] = new SelectList(fornecedorRepo.GetFornecedores(), "Id", "Nome");
             ViewData["LocadorID"] = new SelectList(locadorRepo.GetLocadores(), "Id", "Nome");
-            return View(material);
+            ViewData["LocatarioID"] = new SelectList(locatarioRepo.GetLocatarios(), "Id", "Nome");
+            return View(contrato);
         }
 
-        // POST: Materiais/Edit/5
+        // POST: Contratoes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Nome,Descricao,ValorUnitario,Quantidade,FornecedorID,LocadorID,Id")] Material material)
+        public async Task<IActionResult> Edit(int id, [Bind("DataInicio,DataFim,Valor,FormaPagamento,LocadorID,LocatarioID,Id")] Contrato contrato)
         {
-            if (id != material.Id)
+            if (id != contrato.Id)
             {
                 return NotFound();
             }
@@ -108,11 +108,11 @@ namespace AppCondominio.Controllers
             {
                 try
                 {
-                    materialRepo.UpdateMaterial(material);
+                    contratoRepo.UpdateContrato(contrato);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!materialRepo.MaterialExists(material.Id))
+                    if (!contratoRepo.ContratoExists(contrato.Id))
                     {
                         return NotFound();
                     }
@@ -123,12 +123,12 @@ namespace AppCondominio.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FornecedorID"] = new SelectList(fornecedorRepo.GetFornecedores(), "Id", "Nome");
             ViewData["LocadorID"] = new SelectList(locadorRepo.GetLocadores(), "Id", "Nome");
-            return View(material);
+            ViewData["LocatarioID"] = new SelectList(locatarioRepo.GetLocatarios(), "Id", "Nome");
+            return View(contrato);
         }
 
-        // GET: Materiais/Delete/5
+        // GET: Contratoes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,22 +136,22 @@ namespace AppCondominio.Controllers
                 return NotFound();
             }
 
-            var material = materialRepo.GetMaterial(id);
-            if (material == null)
+            var contrato = contratoRepo.GetContrato(id);
+            if (contrato == null)
             {
                 return NotFound();
             }
 
-            return View(material);
+            return View(contrato);
         }
 
-        // POST: Materiais/Delete/5
+        // POST: Contratoes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var material = materialRepo.GetMaterial(id);
-            materialRepo.RemoveMaterial(material);
+            var contrato = contratoRepo.GetContrato(id);
+            contratoRepo.DeleteContrato(contrato);
             return RedirectToAction(nameof(Index));
         }
     }

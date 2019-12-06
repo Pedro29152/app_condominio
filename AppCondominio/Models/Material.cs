@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppCondominio.Repository.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -22,10 +23,7 @@ namespace AppCondominio.Models
         public double ValorUnitario { get; set; }
         [DataMember]
         [Required]
-        public double QuantidadeAtual { get; set; }
-        [DataMember]
-        [Required]
-        public double QuantidadeTotal { get; set; }
+        public double Quantidade { get; set; }
         [DataMember]
         public Fornecedor Fornecedor { get; set; }
         [ForeignKey("FornecedorID")]

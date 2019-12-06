@@ -21,7 +21,6 @@ namespace AppCondominio
         public DbSet<Locatario> Locatarios { get; set; }
         public DbSet<Fornecedor> Fornecedores { get; set; }
         public DbSet<Material> Materiais { get; set; }
-        public DbSet<FormaPagamento> FormasPagamento { get; set; }
         public DbSet<ControleInOut> ControlesInOut { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -70,13 +69,6 @@ namespace AppCondominio
                 .HasOne(m => m.Locador)
                 .WithMany(l => l.Materiais)
                 .HasForeignKey(m=>m.LocadorID)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            //FormaPagamento ==> Contrato(ContratoID)
-            modelBuilder.Entity<FormaPagamento>()
-                .HasOne(f => f.Contrato)
-                .WithMany(c => c.FormasPagamento)
-                .HasForeignKey(f => f.ContratoID)
                 .OnDelete(DeleteBehavior.Restrict);
 
             //ControleInOut ==> Cliente(ClienteID)

@@ -16,9 +16,12 @@ namespace AppCondominio.Models
             Materiais = Locador.Materiais;
             Contratos = Locador.Contratos;
             TotalGanho = Locador.Contratos.Sum(c => c.Valor);
-            TotalGasto = Locador.Gastos.Sum(g => g.Valor) + Locador.Materiais.Sum(m => m.ValorUnitario * m.QuantidadeTotal);
+            TotalGasto = Locador.Gastos.Sum(g => g.Valor) + Locador.Materiais.Sum(m => m.ValorUnitario * m.Quantidade);
+            Total = TotalGanho - TotalGasto;
         }
 
+        [DataMember]
+        public double Total { get; set; }
         [DataMember]
         public double TotalGasto { get; set; }
         [DataMember]

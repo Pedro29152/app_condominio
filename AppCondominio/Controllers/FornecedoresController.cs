@@ -14,6 +14,7 @@ namespace AppCondominio.Controllers
     public class FornecedoresController : Controller
     {
         private readonly IFornecedorRepo fornecedorRepo;
+        private object locador;
 
         public FornecedoresController(IFornecedorRepo fornecedorRepo)
         {
@@ -47,6 +48,21 @@ namespace AppCondominio.Controllers
         public IActionResult Create()
         {
             return View();
+        }
+
+        public IActionResult Orcamento(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var fornecedor = fornecedorRepo.GetFornecedor(id);
+            if (fornecedor == null)
+            {
+                return NotFound();
+            }
+            var relatorio = new OrcamentoMateriais(fornecedor);
+            return View(relatorio);
         }
 
         // POST: Fornecedores/Create

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppCondominio.Migrations
 {
     [DbContext(typeof(CondominioContext))]
-    [Migration("20191206005109_Condominio")]
+    [Migration("20191206024750_Condominio")]
     partial class Condominio
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -74,6 +74,9 @@ namespace AppCondominio.Migrations
                     b.Property<DateTime?>("DataFim");
 
                     b.Property<DateTime>("DataInicio");
+
+                    b.Property<string>("FormaPagamento")
+                        .IsRequired();
 
                     b.Property<int>("LocadorID");
 
@@ -142,24 +145,6 @@ namespace AppCondominio.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Enderecos");
-                });
-
-            modelBuilder.Entity("AppCondominio.Models.FormaPagamento", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ContratoID");
-
-                    b.Property<string>("Nome")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ContratoID");
-
-                    b.ToTable("FormasPagamento");
                 });
 
             modelBuilder.Entity("AppCondominio.Models.Fornecedor", b =>
@@ -273,9 +258,7 @@ namespace AppCondominio.Migrations
                     b.Property<string>("Nome")
                         .IsRequired();
 
-                    b.Property<double>("QuantidadeAtual");
-
-                    b.Property<double>("QuantidadeTotal");
+                    b.Property<double>("Quantidade");
 
                     b.Property<double>("ValorUnitario");
 
@@ -324,14 +307,6 @@ namespace AppCondominio.Migrations
                     b.HasOne("AppCondominio.Models.Locador", "Locador")
                         .WithMany("ControlesInOut")
                         .HasForeignKey("LocadorID")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("AppCondominio.Models.FormaPagamento", b =>
-                {
-                    b.HasOne("AppCondominio.Models.Contrato", "Contrato")
-                        .WithMany("FormasPagamento")
-                        .HasForeignKey("ContratoID")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

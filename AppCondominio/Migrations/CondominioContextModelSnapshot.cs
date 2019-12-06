@@ -73,6 +73,9 @@ namespace AppCondominio.Migrations
 
                     b.Property<DateTime>("DataInicio");
 
+                    b.Property<string>("FormaPagamento")
+                        .IsRequired();
+
                     b.Property<int>("LocadorID");
 
                     b.Property<int>("LocatarioID");
@@ -140,24 +143,6 @@ namespace AppCondominio.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Enderecos");
-                });
-
-            modelBuilder.Entity("AppCondominio.Models.FormaPagamento", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ContratoID");
-
-                    b.Property<string>("Nome")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ContratoID");
-
-                    b.ToTable("FormasPagamento");
                 });
 
             modelBuilder.Entity("AppCondominio.Models.Fornecedor", b =>
@@ -271,9 +256,7 @@ namespace AppCondominio.Migrations
                     b.Property<string>("Nome")
                         .IsRequired();
 
-                    b.Property<double>("QuantidadeAtual");
-
-                    b.Property<double>("QuantidadeTotal");
+                    b.Property<double>("Quantidade");
 
                     b.Property<double>("ValorUnitario");
 
@@ -322,14 +305,6 @@ namespace AppCondominio.Migrations
                     b.HasOne("AppCondominio.Models.Locador", "Locador")
                         .WithMany("ControlesInOut")
                         .HasForeignKey("LocadorID")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("AppCondominio.Models.FormaPagamento", b =>
-                {
-                    b.HasOne("AppCondominio.Models.Contrato", "Contrato")
-                        .WithMany("FormasPagamento")
-                        .HasForeignKey("ContratoID")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

@@ -201,8 +201,7 @@ namespace AppCondominio.Migrations
                     Nome = table.Column<string>(nullable: false),
                     Descricao = table.Column<string>(nullable: false),
                     ValorUnitario = table.Column<double>(nullable: false),
-                    QuantidadeAtual = table.Column<double>(nullable: false),
-                    QuantidadeTotal = table.Column<double>(nullable: false),
+                    Quantidade = table.Column<double>(nullable: false),
                     FornecedorID = table.Column<int>(nullable: false),
                     LocadorID = table.Column<int>(nullable: false)
                 },
@@ -232,6 +231,7 @@ namespace AppCondominio.Migrations
                     DataInicio = table.Column<DateTime>(nullable: false),
                     DataFim = table.Column<DateTime>(nullable: true),
                     Valor = table.Column<double>(nullable: false),
+                    FormaPagamento = table.Column<string>(nullable: false),
                     LocadorID = table.Column<int>(nullable: false),
                     LocatarioID = table.Column<int>(nullable: false)
                 },
@@ -248,26 +248,6 @@ namespace AppCondominio.Migrations
                         name: "FK_Contratos_Locatarios_LocatarioID",
                         column: x => x.LocatarioID,
                         principalTable: "Locatarios",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "FormasPagamento",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Nome = table.Column<string>(nullable: false),
-                    ContratoID = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FormasPagamento", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_FormasPagamento_Contratos_ContratoID",
-                        column: x => x.ContratoID,
-                        principalTable: "Contratos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -301,11 +281,6 @@ namespace AppCondominio.Migrations
                 name: "IX_ControlesInOut_LocadorID",
                 table: "ControlesInOut",
                 column: "LocadorID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_FormasPagamento_ContratoID",
-                table: "FormasPagamento",
-                column: "ContratoID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Gastos_LocadorID",
@@ -346,10 +321,10 @@ namespace AppCondominio.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ControlesInOut");
+                name: "Contratos");
 
             migrationBuilder.DropTable(
-                name: "FormasPagamento");
+                name: "ControlesInOut");
 
             migrationBuilder.DropTable(
                 name: "Gastos");
@@ -358,19 +333,16 @@ namespace AppCondominio.Migrations
                 name: "Materiais");
 
             migrationBuilder.DropTable(
-                name: "Clientes");
+                name: "Locatarios");
 
             migrationBuilder.DropTable(
-                name: "Contratos");
+                name: "Clientes");
 
             migrationBuilder.DropTable(
                 name: "Fornecedores");
 
             migrationBuilder.DropTable(
                 name: "Locadores");
-
-            migrationBuilder.DropTable(
-                name: "Locatarios");
 
             migrationBuilder.DropTable(
                 name: "Contatos");

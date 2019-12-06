@@ -11,22 +11,22 @@ using AppCondominio.Repository.Interfaces;
 
 namespace AppCondominio.Controllers
 {
-    public class LocadoresController : Controller
+    public class LocatariosController : Controller
     {
-        private readonly ILocadorRepo locadorRepo;
+        private readonly ILocatarioRepo locatarioRepo;
 
-        public LocadoresController(ILocadorRepo locadorRepo)
+        public LocatariosController(ILocatarioRepo locatarioRepo)
         {
-            this.locadorRepo = locadorRepo;
+            this.locatarioRepo = locatarioRepo;
         }
 
-        // GET: Locadores
+        // GET: Locatarios
         public async Task<IActionResult> Index()
         {
-            return View(locadorRepo.GetLocadores());
+            return View(locatarioRepo.GetLocatarios());
         }
 
-        // GET: Locadores/Details/5
+        // GET: Locatarios/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,53 +34,37 @@ namespace AppCondominio.Controllers
                 return NotFound();
             }
 
-            var locador = locadorRepo.GetLocador(id);
-            if (locador == null)
+            var locatario = locatarioRepo.GetLocatario(id);
+            if (locatario == null)
             {
                 return NotFound();
             }
 
-            return View(locador);
+            return View(locatario);
         }
 
-        // GET: Locadores/Create
+        // GET: Locatarios/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        public IActionResult Orcamento(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var locador = locadorRepo.GetLocador(id);
-            if (locador == null)
-            {
-                return NotFound();
-            }
-            var relatorio = new OrcamentoLocador(locador);
-            return View(relatorio);
-        }
-
-        // POST: Locadores/Create
+        // POST: Locatarios/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Documento,Nome,Id,Endereco,Contato")] Locador locador)
+        public async Task<IActionResult> Create([Bind("Documento,Nome,Id,Endereco,Contato")] Locatario locatario)
         {
-            //locador.Endereco = endereco;
             if (ModelState.IsValid)
             {
-                locadorRepo.GravaLocador(locador);
+                locatarioRepo.CreateLocatario(locatario);
                 return RedirectToAction(nameof(Index));
             }
-            return View(locador);
+            return View(locatario);
         }
 
-        // GET: Locadores/Edit/5
+        // GET: Locatarios/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -88,22 +72,22 @@ namespace AppCondominio.Controllers
                 return NotFound();
             }
 
-            var locador = locadorRepo.GetLocador(id);
-            if (locador == null)
+            var locatario =  locatarioRepo.GetLocatario(id);
+            if (locatario == null)
             {
                 return NotFound();
             }
-            return View(locador);
+            return View(locatario);
         }
 
-        // POST: Locadores/Edit/5
+        // POST: Locatarios/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Documento,Nome,Id,Endereco,Contato")] Locador locador)
+        public async Task<IActionResult> Edit(int id, [Bind("Documento,Nome,Id,Endereco,Contato")] Locatario locatario)
         {
-            if (id != locador.Id)
+            if (id != locatario.Id)
             {
                 return NotFound();
             }
@@ -112,11 +96,11 @@ namespace AppCondominio.Controllers
             {
                 try
                 {
-                    locadorRepo.UpdateLocador(locador);
+                    locatarioRepo.UpdateLocatario(locatario);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!locadorRepo.LocadorExists(locador.Id))
+                    if (!locatarioRepo.LocatarioExists(locatario.Id))
                     {
                         return NotFound();
                     }
@@ -127,10 +111,10 @@ namespace AppCondominio.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(locador);
+            return View(locatario);
         }
 
-        // GET: Locadores/Delete/5
+        // GET: Locatarios/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -138,24 +122,23 @@ namespace AppCondominio.Controllers
                 return NotFound();
             }
 
-            var locador = locadorRepo.GetLocador(id);
-            if (locador == null)
+            var locatario =  locatarioRepo.GetLocatario(id);
+            if (locatario == null)
             {
                 return NotFound();
             }
 
-            return View(locador);
+            return View(locatario);
         }
 
-        // POST: Locadores/Delete/5
+        // POST: Locatarios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var locador = locadorRepo.GetLocador(id);
-            locadorRepo.DeleteLocador(locador);
+            var locatario = locatarioRepo.GetLocatario(id);
+            locatarioRepo.DeleteLocatario(locatario);
             return RedirectToAction(nameof(Index));
         }
-        
     }
 }

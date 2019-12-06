@@ -36,7 +36,6 @@ namespace AppCondominio.Repository
         {
             return DbSet
                 .Include(c => c.Locador)
-                .Include(c => c.FormasPagamento)
                 .Include(c => c.Locatario)
                 .FirstOrDefault(m => m.Id == Id);
         }
@@ -45,7 +44,6 @@ namespace AppCondominio.Repository
         {
             return DbSet
                 .Include(c => c.Locador)
-                .Include(c => c.FormasPagamento)
                 .Include(c => c.Locatario)
                 .ToList();
         }

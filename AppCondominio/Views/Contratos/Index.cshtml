@@ -1,10 +1,10 @@
-﻿@model IEnumerable<AppCondominio.Models.Material>
+﻿@model IEnumerable<AppCondominio.Models.Contrato>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Materiais</h1>
+<h1>Contratos</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,22 +13,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Nome)
+                @Html.DisplayNameFor(model => model.DataInicio)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Descricao)
+                @Html.DisplayNameFor(model => model.DataFim)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ValorUnitario)
+                @Html.DisplayNameFor(model => model.Valor)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Quantidade)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Fornecedor)
+                @Html.DisplayNameFor(model => model.FormaPagamento)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Locador)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Locatario)
             </th>
             <th></th>
         </tr>
@@ -37,22 +37,22 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Nome)
+                @Html.DisplayFor(modelItem => item.DataInicio)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Descricao)
+                @Html.DisplayFor(modelItem => item.DataFim)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ValorUnitario)
+                @Html.DisplayFor(modelItem => item.Valor)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Quantidade)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fornecedor.Nome)
+                @Html.DisplayFor(modelItem => item.FormaPagamento)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Locador.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Locatario.Nome)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
