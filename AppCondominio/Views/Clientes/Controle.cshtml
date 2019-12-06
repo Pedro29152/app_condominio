@@ -1,0 +1,42 @@
+﻿@model AppCondominio.Models.ControleEntrada
+
+@{
+    ViewData["Title"] = "Orcamento";
+}
+
+<h1>Orcamento Fornecedor</h1>
+
+<div>
+    <h4>Materiais</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Cliente)
+        </dt>
+        <dd class="col-sm-10">
+            <span style="font-weight: bold">CNPJ:</span> @Model.Cliente.Cpf
+            <br />
+            <span style="font-weight: bold">Nome:</span> @Model.Cliente.Nome
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Controles)
+        </dt>
+        <dd class="col-sm-10">
+            @foreach (var item in Model.Controles)
+            {
+                <span style="font-weight: bold">Visita</span>
+                <br />
+                @:Locador: @item.Locador.Nome
+                <br />
+                @:Entrada: @item.DataEntrada
+                <br />
+                @:Saida: @item.DataSaida
+                <br />
+            }
+        </dd>
+    </dl>
+</div>
+<div>
+<a asp-action="Index">Back to List</a>
+</div>
+

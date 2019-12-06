@@ -54,6 +54,21 @@ namespace AppCondominio.Controllers
             return View();
         }
 
+        public IActionResult Controle(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var cliente = clienteRepo.GetCliente(id);
+            if (cliente == null)
+            {
+                return NotFound();
+            }
+            var controle = new ControleEntrada(cliente);
+            return View(controle);
+        }
+
         // POST: Clientes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -94,7 +109,7 @@ namespace AppCondominio.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Nome,Cpf,LocadorID,Id")] Cliente cliente)
+        public async Task<IActionResult> Edit(int id, [Bind("Nome,Cpf,LocadorID,Id,Contato,Endereco")] Cliente cliente)
         {
             if (id != cliente.Id)
             {

@@ -35,7 +35,7 @@ namespace AppCondominio
             });
 
             services.AddDbContext<CondominioContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection"))
+                options.UseSqlite(Configuration.GetConnectionString("SqliteConnection"))
             );
 
             services.AddTransient<IGastosRepo,          GastosRepo>();

@@ -18,6 +18,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Cpf)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contato.Email)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -31,9 +34,13 @@
                 @Html.DisplayFor(modelItem => item.Cpf)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Contato.Email)
+            </td>
+            <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                <a asp-action="Controle" asp-route-id="@item.Id">Controle de Entrada</a>
             </td>
         </tr>
 }
